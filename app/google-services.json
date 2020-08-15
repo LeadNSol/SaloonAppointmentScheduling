@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "295101456835",
+    "firebase_url": "https://saloonappointmentseheduling.firebaseio.com",
+    "project_id": "saloonappointmentseheduling",
+    "storage_bucket": "saloonappointmentseheduling.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295101456835:android:48da27807bbb1860435d76",
+        "android_client_info": {
+          "package_name": "com.leadnsolutions.saloonappointmentscheduling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295101456835-5vl023cfp7h1tdu54k6fuq15eoe8sha3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8SBojYNo8lxguCmjzT21z-s7RNcdbcJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295101456835-5vl023cfp7h1tdu54k6fuq15eoe8sha3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
