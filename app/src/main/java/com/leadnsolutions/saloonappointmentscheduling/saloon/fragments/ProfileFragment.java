@@ -189,8 +189,6 @@ public class ProfileFragment<updateDialog> extends Fragment {
             priceDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             LinearLayout linearLayout = priceDialog.findViewById(R.id.ll_edit_service_price);
-
-
             if (model != null) {
                 textViews = new TextView[model.getSaloonService().size()];
                 editTexts = new EditText[model.getSaloonService().size()];
@@ -228,7 +226,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                 }
 
             }else
-                Toast.makeText(mActivity, "model is null", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "Model is Null!", Toast.LENGTH_SHORT).show();
             priceDialog.show();
             updatePrice.setOnClickListener(v -> {
                 List<SaloonModel.SaloonService> mSaloonServicesList = new ArrayList<>();
@@ -247,7 +245,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                         priceDialog.dismiss();
                         priceDialog = null;
                        // setUpSaloonServices(model);
-                        Toast.makeText(mActivity, "Service Price is updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "Service Price Updated!", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
