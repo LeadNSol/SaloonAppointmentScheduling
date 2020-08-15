@@ -43,6 +43,7 @@ public class CustomerRegistrationFragment extends Fragment {
     Button btnAddUser;
     Spinner genderSpinner;
     String[] gender = {"Male", "Female"};
+    String[] gender1 = {"Male", "Female","others"};
 
     FirebaseAuth firebaseAuth;
     DatabaseReference reference;
