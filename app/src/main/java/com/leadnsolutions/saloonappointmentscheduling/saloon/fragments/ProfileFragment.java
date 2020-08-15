@@ -245,7 +245,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                         priceDialog.dismiss();
                         priceDialog = null;
                        // setUpSaloonServices(model);
-                        Toast.makeText(mActivity, "Service Price is updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "Service Price is updated!!", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
