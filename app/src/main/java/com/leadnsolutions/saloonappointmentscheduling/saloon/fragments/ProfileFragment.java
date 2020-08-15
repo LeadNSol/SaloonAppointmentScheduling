@@ -189,8 +189,6 @@ public class ProfileFragment<updateDialog> extends Fragment {
             priceDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             LinearLayout linearLayout = priceDialog.findViewById(R.id.ll_edit_service_price);
-
-
             if (model != null) {
                 textViews = new TextView[model.getSaloonService().size()];
                 editTexts = new EditText[model.getSaloonService().size()];
