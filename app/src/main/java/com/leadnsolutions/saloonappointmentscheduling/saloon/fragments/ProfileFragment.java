@@ -226,7 +226,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                 }
 
             }else
-                Toast.makeText(mActivity, "Mode is NULL!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "Saloon App Model is Null!", Toast.LENGTH_SHORT).show();
             priceDialog.show();
             updatePrice.setOnClickListener(v -> {
                 List<SaloonModel.SaloonService> mSaloonServicesList = new ArrayList<>();
