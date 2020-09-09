@@ -42,6 +42,8 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    /*firebase ui*/
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
     // Image Picker dy
     implementation 'gun0912.ted:tedbottompicker:2.0.1'

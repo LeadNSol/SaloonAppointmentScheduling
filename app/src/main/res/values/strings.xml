@@ -70,4 +70,8 @@
     <string name="day_to">Day to</string>
     <string name="time_from">Time From</string>
     <string name="time_to">Time to</string>
+    <string name="logout">Logout</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="customer_info_update">Customer Info Update Dialog</string>
+
 </resources>

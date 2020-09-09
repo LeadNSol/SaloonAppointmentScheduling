@@ -21,7 +21,7 @@ import java.util.Objects;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SplashActivity extends AppCompatActivity implements View.OnClickListener,EasyPermissions.PermissionCallbacks {
+public class SplashActivity extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
     private final static int SPLASH_DURATION = 1000;
     private static final int RC_VIDEO_APP_PERM = 124;
     private static final int RC_SETTINGS_SCREEN_PERM = 123;

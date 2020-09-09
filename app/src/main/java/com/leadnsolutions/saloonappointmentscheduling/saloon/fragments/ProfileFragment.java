@@ -2,6 +2,7 @@ package com.leadnsolutions.saloonappointmentscheduling.saloon.fragments;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,6 +27,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.leadnsolutions.saloonappointmentscheduling.R;
+import com.leadnsolutions.saloonappointmentscheduling.activity.SplashActivity;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.utils.AppConstant;
 import com.leadnsolutions.saloonappointmentscheduling.utils.sharedPref.SharedPrefHelper;
@@ -58,6 +61,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
     private Dialog priceDialog;
     private Uri imageUri;
     private UploadTask mUploadTask;
+    Button btnSLogout;
 
     public ProfileFragment() {
     }
@@ -82,18 +86,29 @@ public class ProfileFragment<updateDialog> extends Fragment {
         if (mActivity != null && mActivity.getSupportActionBar() != null) {
             mActivity.getSupportActionBar().hide();
         }
-        saloonProfileImg = view.findViewById(R.id.img_saloon_profile);
-        profileName = view.findViewById(R.id.profile_saloon_saloon_name);
+        saloonProfileImg = view.findViewById(R.id.saloon_profile_image);
+        profileName = view.findViewById(R.id.profile_saloon_name);
         profileNumber = view.findViewById(R.id.profile_saloon_phone);
         profileAddress = view.findViewById(R.id.profile_saloon_address);
         editPrice = view.findViewById(R.id.tv_edit_service_price);
-        ImageButton btnEditProfile = view.findViewById(R.id.btn_edit_info);
+        btnSLogout=view.findViewById(R.id.btn_saloon_logout);
+        ImageButton btnEditProfile = view.findViewById(R.id.btn_saloon_info_edit);
         editPrice.setOnClickListener(v -> editServicePrice());
 
 
         btnEditProfile.setOnClickListener(v -> showUpdateDialog());
 
         loadProfileData();
+        btnSLogout.setOnClickListener(view -> saloonLogout());
+    }
+
+    private void saloonLogout() {
+        SharedPrefHelper.getmHelper().clearPreferences();
+        AuthUI.getInstance()
+                .signOut(mActivity)
+                .addOnCompleteListener(task -> {
+                    mActivity.startActivity(new Intent(mActivity, SplashActivity.class));
+                });
     }
 
     private void loadProfileData() {
@@ -121,7 +136,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(mActivity, (CharSequence) error, Toast.LENGTH_SHORT).show();
                 }
             });
         }

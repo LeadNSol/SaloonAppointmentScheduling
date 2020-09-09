@@ -1,41 +1,25 @@
 package com.leadnsolutions.saloonappointmentscheduling.customer;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leadnsolutions.saloonappointmentscheduling.R;
-import com.leadnsolutions.saloonappointmentscheduling.saloon.adapter.SaloonAdapter;
-import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
+import com.leadnsolutions.saloonappointmentscheduling.customer.fragments.CustomerDashboradFragment;
+import com.leadnsolutions.saloonappointmentscheduling.customer.fragments.CustomerHistoryFragment;
+import com.leadnsolutions.saloonappointmentscheduling.customer.fragments.CustomerNotificationFragment;
+import com.leadnsolutions.saloonappointmentscheduling.customer.fragments.CustomerProfileFragment;
 import com.leadnsolutions.saloonappointmentscheduling.utils.UtilClass;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class CustomerDashboardActivity extends AppCompatActivity {
 
 
-    private List<SaloonModel> listModel;
+   /* private List<SaloonModel> listModel;
     private RecyclerView mResultList;
     private SaloonAdapter adapter;
 
@@ -43,23 +27,30 @@ public class CustomerDashboardActivity extends AppCompatActivity {
 
     private DatabaseReference mUserDatabase;
 
-    private StorageReference storageReference;
+    private StorageReference storageReference;*/
 
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_dashboard);
-        getSupportActionBar().setTitle("Customer Dashboard");
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
 
-        mResultList = findViewById(R.id.show_all_saloons);
+        BottomNavigationView navigation = findViewById(R.id.customer_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        FrameLayout frameLayout = findViewById(R.id.frame_container_customer);
+
+        fragment = new CustomerDashboradFragment();
+        UtilClass.loadFragment(fragment, CustomerDashboardActivity.this, R.id.frame_container_customer);
+
+
+        /*mResultList = findViewById(R.id.show_all_saloons);
         searchSaloon = findViewById(R.id.ed_saloon_search);
 
         mResultList.setHasFixedSize(true);
         mResultList.setLayoutManager(new GridLayoutManager(this, 2));
-
-
         showAllSaloon();
 
         searchSaloon.addTextChangedListener(new TextWatcher() {
@@ -79,11 +70,11 @@ public class CustomerDashboardActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 UtilClass.hideSoftKeyboard(CustomerDashboardActivity.this);
             }
-        });
+        });*/
     }
 
 
-    private void showAllSaloon() {
+   /* private void showAllSaloon() {
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference("saloon");
 
@@ -145,6 +136,34 @@ public class CustomerDashboardActivity extends AppCompatActivity {
         mResultList.setAdapter(adapter);
         adapter.startListening();
 
-    }
+    }*/
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+
+        switch (item.getItemId()) {
+            case R.id.customer_dashboard:
+
+                fragment = new CustomerDashboradFragment();
+                UtilClass.loadFragment(fragment, CustomerDashboardActivity.this, R.id.frame_container_customer);
+                return true;
+            case R.id.customer_profile:
+
+                fragment = new CustomerProfileFragment();
+                UtilClass.loadFragment(fragment, CustomerDashboardActivity.this, R.id.frame_container_customer);
+                return true;
+            case R.id.customer_history:
+                fragment = new CustomerHistoryFragment();
+                UtilClass.loadFragment(fragment, CustomerDashboardActivity.this, R.id.frame_container_customer);
+
+                return true;
+            case R.id.customer_notification:
+                fragment = new CustomerNotificationFragment();
+                UtilClass.loadFragment(fragment, CustomerDashboardActivity.this, R.id.frame_container_customer);
+                return true;
+        }
+        return false;
+    };
 
 }
