@@ -46,9 +46,10 @@
 
                 <ImageView
                     android:id="@+id/iv_saloon_img"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/todo"
                     android:src="@drawable/ic_baseline_photo_camera" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -64,6 +65,7 @@
                         android:drawableStart="@drawable/ic_baseline_person_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/saloonName"
+                        android:importantForAutofill="no"
                         android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -82,6 +84,7 @@
                         android:drawableStart="@drawable/ic_baseline_email_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/email"
+                        android:importantForAutofill="no"
                         android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -119,6 +122,7 @@
                         android:drawableStart="@drawable/ic_baseline_local_phone_24"
                         android:drawablePadding="10dp"
                         android:hint="@string/phone"
+                        android:importantForAutofill="no"
                         android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -130,13 +134,14 @@
                     android:layout_marginBottom="8dp">
 
                     <EditText
-                        android:id="@+id/et_saloon_location"
+                        android:id="@+id/et_saloon_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:drawableStart="@drawable/ic_baseline_location_on_24"
                         android:drawablePadding="10dp"
-                        android:hint="@string/location"
+                        android:hint="@string/address"
+                        android:importantForAutofill="no"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +152,7 @@
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Add Saloon Service"
+                    android:text="@string/add_saloon_service"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -158,13 +163,122 @@
                     android:padding="5dp"
                     tools:listitem="@layout/support_simple_spinner_dropdown_item" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/working_days"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:padding="3dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_from"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_to"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spinner_day_from"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+
+                        tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+                    <Spinner
+                        android:id="@+id/spinner_day_to"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_from"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_to"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spinner_time_from"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+                    <Spinner
+                        android:id="@+id/spinner_time_to"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/support_simple_spinner_dropdown_item" />
+
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/btn_saloon_registration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="142dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:textSize="18sp"
                     android:background="@drawable/style_dialog"
-                    android:text="Register"
+                    android:text="@string/register"
                     android:textAllCaps="false" />
 
 

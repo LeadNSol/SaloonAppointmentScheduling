@@ -10,4 +10,5 @@
     <color name="colorWhite">#F8F5F5</color>
     <color name="bgBottomNavigation">#5966E8</color>
     <color name="colorRed">#F44336</color>
+    <color name="b10">#000</color>
 </resources>

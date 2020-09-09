@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboard_fragment_saloon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".saloon.fragments.DashboardFragment"
     tools:ignore="InvalidId">
 
+
     <TextView
+        android:id="@+id/txt_saloon_staff"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:text="Saloon Dashboard"
-        android:textSize="36sp" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/saloon_staff_list"
+        android:textColor="@color/colorBlack"
+        android:textSize="22sp" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_saloon_staff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            tools:listitem="@layout/saloon_staff_list" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_staff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:backgroundTint="@color/cardBG"
+        android:src="@drawable/ic_baseline_add_24" />
+
 
 </FrameLayout>

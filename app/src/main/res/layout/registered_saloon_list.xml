@@ -10,7 +10,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/image_saloon_staff"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"

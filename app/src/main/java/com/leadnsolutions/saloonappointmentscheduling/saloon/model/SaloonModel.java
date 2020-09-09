@@ -3,24 +3,42 @@ package com.leadnsolutions.saloonappointmentscheduling.saloon.model;
 import java.util.List;
 
 public class SaloonModel {
-    String id, profile_image, name, email, password, phone, location, gender;
+    String id, profile_image, name, email, password, phone, address, gender, loc, workTime;
     private List<SaloonService> saloonService;
 
     public SaloonModel() {
     }
 
+    public String getLoc() {
+        return loc;
+    }
+
+    public void setLoc(String loc) {
+        this.loc = loc;
+    }
+
+    public void setWorkTime(String workTime) {
+        this.workTime = workTime;
+    }
+
+    public String getWorkTime() {
+        return workTime;
+    }
+
     public SaloonModel(String id, String profile_image, String name, String email,
-                       String password, String phone, String location, String gender,
-                       List<SaloonService> saloonService) {
+                       String password, String phone, String location, String gender, String loc,
+                       String workTime, List<SaloonService> saloonService) {
         this.id = id;
         this.profile_image = profile_image;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.location = location;
+        this.address = location;
         this.gender = gender;
         this.saloonService = saloonService;
+        this.loc = loc;
+        this.workTime = workTime;
     }
 
     public void setId(String id) {
@@ -47,8 +65,8 @@ public class SaloonModel {
         this.phone = phone;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setGender(String gender) {
@@ -83,8 +101,8 @@ public class SaloonModel {
         return phone;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
     public String getGender() {

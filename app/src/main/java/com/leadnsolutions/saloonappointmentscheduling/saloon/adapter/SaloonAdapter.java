@@ -53,7 +53,7 @@ public class SaloonAdapter extends RecyclerView.Adapter<SaloonAdapter.SaloonView
 
         public SaloonViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgSaloon = itemView.findViewById(R.id.profile_image);
+            imgSaloon = itemView.findViewById(R.id.image_saloon_staff);
             txtName = itemView.findViewById(R.id.tv_s_name);
             txtPhone = itemView.findViewById(R.id.tv_s_phone);
             txtLoc = itemView.findViewById(R.id.tv_s_loc);
@@ -63,7 +63,7 @@ public class SaloonAdapter extends RecyclerView.Adapter<SaloonAdapter.SaloonView
         public void setData(SaloonModel model, Context mContext) {
             txtName.setText(model.getName());
             txtPhone.setText(model.getPhone());
-            txtLoc.setText(model.getLocation());
+            txtLoc.setText(model.getAddress());
 //            txtService.setText(model.getSaloon_service());
 
             Glide.with(mContext).load(model.getProfile_image()).into(imgSaloon);

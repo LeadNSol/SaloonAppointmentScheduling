@@ -19,7 +19,7 @@
         android:id="@+id/tv_customer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/profile_image"
+        android:layout_toEndOf="@+id/image_saloon_staff"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/user_name"

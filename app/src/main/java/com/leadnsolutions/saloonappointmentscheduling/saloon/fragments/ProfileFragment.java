@@ -97,7 +97,6 @@ public class ProfileFragment<updateDialog> extends Fragment {
     }
 
     private void loadProfileData() {
-        List<SaloonModel> saloonModelList;
         if (SharedPrefHelper.getmHelper().getSaloonModel() != null) {
             SaloonModel sharedModel = new Gson()
                     .fromJson(SharedPrefHelper.getmHelper().getSaloonModel(), SaloonModel.class);
@@ -114,7 +113,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                     if (model != null) {
                         profileName.setText(model.getName());
                         profileNumber.setText(model.getPhone());
-                        profileAddress.setText(model.getLocation());
+                        profileAddress.setText(model.getAddress());
                         Glide.with(mActivity).load(model.getProfile_image()).into(saloonProfileImg);
                         setUpSaloonServices(model);
                     }
@@ -225,7 +224,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                     linearLayout.addView(layout);
                 }
 
-            }else
+            } else
                 Toast.makeText(mActivity, "Model is Null!", Toast.LENGTH_SHORT).show();
             priceDialog.show();
             updatePrice.setOnClickListener(v -> {
@@ -244,7 +243,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                     if (task.isSuccessful()) {
                         priceDialog.dismiss();
                         priceDialog = null;
-                       // setUpSaloonServices(model);
+                        // setUpSaloonServices(model);
                         Toast.makeText(mActivity, "Service Price Updated!", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -285,7 +284,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
 
             updateName.setText(model.getName());
             updatePhone.setText(model.getPhone());
-            updateAddress.setText(model.getLocation());
+            updateAddress.setText(model.getAddress());
 
 
             Glide.with(mActivity).load(model.getProfile_image()).into(updateProfile);
@@ -353,7 +352,7 @@ public class ProfileFragment<updateDialog> extends Fragment {
                     SaloonModel.class);
             saloonModel.setName(name);
             saloonModel.setPhone(phone);
-            saloonModel.setLocation(address);
+            saloonModel.setAddress(address);
             saloonModel.setProfile_image(imageUri.toString());
 
             reference = FirebaseDatabase.getInstance().getReference(AppConstant.SALOON)

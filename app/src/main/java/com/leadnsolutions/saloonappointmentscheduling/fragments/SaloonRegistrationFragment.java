@@ -22,11 +22,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +52,7 @@ import gun0912.tedbottompicker.TedBottomPicker;
 
 public class SaloonRegistrationFragment extends Fragment {
 
-    EditText edSaloonName, edSaloonEmail, edSaloonPassword, edSaloonPhone, edSaloonLocation;
+    EditText edSaloonName, edSaloonEmail, edSaloonPassword, edSaloonPhone, edSaloonAddress;
     Button btnSaloonReg;
     ImageView saloonImage;
     TextView saloonService;
@@ -58,8 +62,11 @@ public class SaloonRegistrationFragment extends Fragment {
     DatabaseReference reference;
 
     View view;
-    Spinner genderSpinner;
+    Spinner genderSpinner, timeFromSpinner, timeToSpinner, dayFromSpinner, dayToSpinner;
     String[] genderSaloon = {"Male", "Female"};
+    String[] daySaloon = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    String[] timeSaloon = {"01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
+            "09:00", "10:00", "11:00", "12:00"};
     CheckBox[] checkBox = null;
     StringBuilder stringBuilder;
     List<String> addedServices;
@@ -69,6 +76,9 @@ public class SaloonRegistrationFragment extends Fragment {
     private Dialog mServiceDialog;
     private String[] saloonServices = {"Waxing", "Treatment", "Hair Dressing", "Make-Up", "Facial", "Massage"};
     private UploadTask mUploadTask;
+
+    ArrayAdapter arrayAdapter, arrayAdapterDayFrom, arrayAdapterDayTo, arrayAdapterTimeFrom, arrayAdapterTimeTo;
+
     public SaloonRegistrationFragment() {
         // Required empty public constructor
     }
@@ -101,18 +111,42 @@ public class SaloonRegistrationFragment extends Fragment {
         edSaloonEmail = view.findViewById(R.id.et_saloon_email);
         edSaloonPassword = view.findViewById(R.id.et_saloon_password);
         edSaloonPhone = view.findViewById(R.id.et_saloon_phone);
-        edSaloonLocation = view.findViewById(R.id.et_saloon_location);
+        edSaloonAddress = view.findViewById(R.id.et_saloon_address);
         saloonImage = view.findViewById(R.id.iv_saloon_img);
         genderSpinner = view.findViewById(R.id.saloon_gender_spinner);
         saloonService = view.findViewById(R.id.tv_add_saloon_service);
         btnSaloonReg = view.findViewById(R.id.btn_saloon_registration);
+        dayFromSpinner = view.findViewById(R.id.spinner_day_from);
+        dayToSpinner = view.findViewById(R.id.spinner_day_to);
+        timeFromSpinner = view.findViewById(R.id.spinner_time_from);
+        timeToSpinner = view.findViewById(R.id.spinner_time_to);
 
         auth = FirebaseAuth.getInstance();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(mActivity, R.layout.spinner_item, genderSaloon);
+        arrayAdapter = new ArrayAdapter(mActivity, R.layout.spinner_item, genderSaloon);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_item);
 
         genderSpinner.setAdapter(arrayAdapter);
+
+        arrayAdapterDayFrom = new ArrayAdapter(mActivity, R.layout.spinner_item, daySaloon);
+        arrayAdapterDayFrom.setDropDownViewResource(R.layout.spinner_item);
+
+        dayFromSpinner.setAdapter(arrayAdapterDayFrom);
+
+        arrayAdapterDayTo = new ArrayAdapter(mActivity, R.layout.spinner_item, daySaloon);
+        arrayAdapterDayTo.setDropDownViewResource(R.layout.spinner_item);
+
+        dayToSpinner.setAdapter(arrayAdapterDayTo);
+
+        arrayAdapterTimeFrom = new ArrayAdapter(mActivity, R.layout.spinner_item, timeSaloon);
+        arrayAdapterTimeFrom.setDropDownViewResource(R.layout.spinner_item);
+
+        timeFromSpinner.setAdapter(arrayAdapterTimeFrom);
+
+        arrayAdapterTimeTo = new ArrayAdapter(mActivity, R.layout.spinner_item, timeSaloon);
+        arrayAdapterTimeTo.setDropDownViewResource(R.layout.spinner_item);
+
+        timeToSpinner.setAdapter(arrayAdapterTimeTo);
 
         btnSaloonReg.setOnClickListener(v -> {
 
@@ -230,13 +264,17 @@ public class SaloonRegistrationFragment extends Fragment {
     }
 
     private boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(mActivity, "Permissions Allowed!", Toast.LENGTH_LONG).show();
             return true;
         } else {
 
-            ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 0);
+            ActivityCompat.requestPermissions(mActivity, new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                    0);
             return false;
         }
     }
@@ -272,14 +310,86 @@ public class SaloonRegistrationFragment extends Fragment {
 
     }
 
+    /* protected LocationManager locationManager;
+     LocationListener locationListener;
+     protected Context context;
+ */
+    protected double latitude, longitude;
+
+
+    FusedLocationProviderClient fusedLocationClient;
+
     private void addSaloonToFirebase(Uri uri) {
 
+       /* locationManager = (LocationManager) mActivity.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                    0, mActivity);
+
+
+        }*/
+
+        /*if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                (mActivity, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+                fusedLocationClient = LocationServices.getFusedLocationProviderClient(mActivity);
+            LocationRequest mLocationRequest = new LocationRequest();
+           *//* mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(0);
+            mLocationRequest.setFastestInterval(0);
+            mLocationRequest.setNumUpdates(1);
+
+            fusedLocationClient.requestLocationUpdates()*//*
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener((Executor) this, location -> {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        });
+
+        }*/
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(mActivity);
+        LocationRequest mLocationRequest = new LocationRequest();
+           /* mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(0);
+            mLocationRequest.setFastestInterval(0);
+            mLocationRequest.setNumUpdates(1);
+
+            fusedLocationClient.requestLocationUpdates()*/
+        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(mActivity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},1000);
+        }else{
+            fusedLocationClient.getLastLocation().addOnSuccessListener(mActivity, location -> {
+                    if (location!=null){
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    }
+            });
+        }
         String name = edSaloonName.getText().toString();
         String email = edSaloonEmail.getText().toString();
         String password = edSaloonPassword.getText().toString();
         String phone = edSaloonPhone.getText().toString();
-        String loc = edSaloonLocation.getText().toString();
+        String address = edSaloonAddress.getText().toString();
         String gender = genderSpinner.getSelectedItem().toString();
+        String dayFrom = dayFromSpinner.getSelectedItem().toString();
+        String dayTo = dayToSpinner.getSelectedItem().toString();
+        String timeFrom = timeFromSpinner.getSelectedItem().toString();
+        String timeTo = timeToSpinner.getSelectedItem().toString();
+        String loc = latitude + "," + longitude;
+
+        String workTime = dayFrom + "-" + dayTo + "," + timeFrom + "-" + timeTo;
+        Toast.makeText(mActivity, workTime, Toast.LENGTH_SHORT).show();
 
         FirebaseUser firebaseUser = auth.getCurrentUser();
         assert firebaseUser != null;
@@ -287,10 +397,9 @@ public class SaloonRegistrationFragment extends Fragment {
 
         reference = FirebaseDatabase.getInstance().getReference(AppConstant.SALOON)
                 .child(userId);
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("SaloonService", mSaloonServicesList);
+
         SaloonModel saloonModel = new SaloonModel(userId, uri.toString(), name, email, password,
-                phone, loc, gender, mSaloonServicesList);
+                phone, address, gender, loc, workTime, mSaloonServicesList);
 
         reference.setValue(saloonModel).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -324,5 +433,37 @@ public class SaloonRegistrationFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1000){
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(mActivity, "permission granted", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+/*
+    public void onLocationChanged(@NonNull Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }*/
 
 }

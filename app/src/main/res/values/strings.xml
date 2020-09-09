@@ -54,4 +54,20 @@
     <string name="saloon_ser">Saloon Service</string>
     <string name="edit_price">Edit Price</string>
     <string name="edit_service_price">Edit Service Price</string>
+    <string name="saloon_staff_list">Saloon Staff List</string>
+    <string name="staff_name">Name</string>
+    <string name="staff_address">Address</string>
+    <string name="staff_phone">Phone</string>
+    <string name="staff_type">Type</string>
+    <string name="add_staff">Add Staff</string>
+    <string name="designation">Designation</string>
+    <string name="isfree">isFree</string>
+    <string name="worker_type">Worker Type</string>
+    <string name="add_saloon_service">Add Saloon Service</string>
+    <string name="register">Register</string>
+    <string name="working_days">Working Days and Time</string>
+    <string name="day_from">Day from</string>
+    <string name="day_to">Day to</string>
+    <string name="time_from">Time From</string>
+    <string name="time_to">Time to</string>
 </resources>
