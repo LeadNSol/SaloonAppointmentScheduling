@@ -11,4 +11,7 @@ public interface ISharedPrefHelper {
     void setCustomerModel(String customerModel);
 
     void clearPreferences();
+
+    void setFUserUID(String UID);
+    String getFUserUID();
 }

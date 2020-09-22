@@ -3,8 +3,9 @@ package com.leadnsolutions.saloonappointmentscheduling.saloon.model;
 import java.util.List;
 
 public class SaloonModel {
-    String id, profile_image, name, email, password, phone, address, gender, loc, workTime;
+    String id, profile_image, name, email, password, phone, address, gender, loc, workTime, city;
     private List<SaloonService> saloonService;
+    private List<SaloonRating> saloonRating;
 
     public SaloonModel() {
     }
@@ -27,7 +28,7 @@ public class SaloonModel {
 
     public SaloonModel(String id, String profile_image, String name, String email,
                        String password, String phone, String location, String gender, String loc,
-                       String workTime, List<SaloonService> saloonService) {
+                       String workTime, String city, List<SaloonService> saloonService) {
         this.id = id;
         this.profile_image = profile_image;
         this.name = name;
@@ -39,6 +40,15 @@ public class SaloonModel {
         this.saloonService = saloonService;
         this.loc = loc;
         this.workTime = workTime;
+        this.city = city;
+    }
+
+    public List<SaloonRating> getSaloonRating() {
+        return saloonRating;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     public void setId(String id) {
@@ -138,6 +148,33 @@ public class SaloonModel {
 
         public String getPrice() {
             return price;
+        }
+    }
+
+    public static class SaloonRating {
+        private String comment;
+        private String rating;
+        private String customerId;
+
+        public SaloonRating() {
+        }
+
+        public SaloonRating(String comment, String rating, String customerId) {
+            this.comment = comment;
+            this.rating = rating;
+            this.customerId = customerId;
+        }
+
+        public String getCustomerId() {
+            return customerId;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public String getRating() {
+            return rating;
         }
     }
 }

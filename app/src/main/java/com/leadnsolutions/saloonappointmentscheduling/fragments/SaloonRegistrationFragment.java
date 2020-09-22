@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,6 +45,7 @@ import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.utils.AppConstant;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -367,13 +370,13 @@ public class SaloonRegistrationFragment extends Fragment {
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(mActivity,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},1000);
-        }else{
+                            Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
+        } else {
             fusedLocationClient.getLastLocation().addOnSuccessListener(mActivity, location -> {
-                    if (location!=null){
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                    }
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
             });
         }
         String name = edSaloonName.getText().toString();
@@ -387,6 +390,15 @@ public class SaloonRegistrationFragment extends Fragment {
         String timeFrom = timeFromSpinner.getSelectedItem().toString();
         String timeTo = timeToSpinner.getSelectedItem().toString();
         String loc = latitude + "," + longitude;
+        String city = null;
+        try {
+            List<Address> addressList = new Geocoder(mActivity).getFromLocation(latitude, longitude, 1);
+            Address mAddress = addressList.get(0);
+            city = mAddress.getLocality();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         String workTime = dayFrom + "-" + dayTo + "," + timeFrom + "-" + timeTo;
         Toast.makeText(mActivity, workTime, Toast.LENGTH_SHORT).show();
@@ -399,7 +411,7 @@ public class SaloonRegistrationFragment extends Fragment {
                 .child(userId);
 
         SaloonModel saloonModel = new SaloonModel(userId, uri.toString(), name, email, password,
-                phone, address, gender, loc, workTime, mSaloonServicesList);
+                phone, address, gender, loc, workTime, city, mSaloonServicesList);
 
         reference.setValue(saloonModel).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -438,8 +450,8 @@ public class SaloonRegistrationFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == 1000){
-            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 1000) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(mActivity, "permission granted", Toast.LENGTH_SHORT).show();
             }
         }

@@ -6,21 +6,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.leadnsolutions.saloonappointmentscheduling.R;
+import com.leadnsolutions.saloonappointmentscheduling.notification.models.Token;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.fragments.DashboardFragment;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.fragments.HistoryFragment;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.fragments.NotificationFragment;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.fragments.ProfileFragment;
+import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.utils.UtilClass;
-
-import java.util.Objects;
+import com.leadnsolutions.saloonappointmentscheduling.utils.sharedPref.SharedPrefHelper;
 
 public class SaloonDashboardActivity extends AppCompatActivity {
 
-    Fragment fragment;
+    private Fragment fragment;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-
+        Fragment fragment;
         switch (item.getItemId()) {
             case R.id.navigation_dashboard:
 
@@ -49,7 +54,7 @@ public class SaloonDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saloon_dashboard);
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        getSupportActionBar().hide();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -57,6 +62,8 @@ public class SaloonDashboardActivity extends AppCompatActivity {
         fragment = new DashboardFragment();
         UtilClass.loadFragment(fragment, SaloonDashboardActivity.this, R.id.frame_container);
 
+
     }
+
 
 }

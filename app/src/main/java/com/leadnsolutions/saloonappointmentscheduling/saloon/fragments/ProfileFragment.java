@@ -80,7 +80,6 @@ public class ProfileFragment<updateDialog> extends Fragment {
     }
 
     private LinearLayout llVertical;
-
     private void initViews() {
         mActivity = (AppCompatActivity) getActivity();
         if (mActivity != null && mActivity.getSupportActionBar() != null) {

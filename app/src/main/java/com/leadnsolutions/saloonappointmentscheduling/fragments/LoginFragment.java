@@ -17,15 +17,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.leadnsolutions.saloonappointmentscheduling.R;
 import com.leadnsolutions.saloonappointmentscheduling.customer.CustomerDashboardActivity;
 import com.leadnsolutions.saloonappointmentscheduling.customer.model.CustomerModel;
+import com.leadnsolutions.saloonappointmentscheduling.notification.models.Token;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.SaloonDashboardActivity;
 import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.utils.AppConstant;
@@ -84,7 +87,7 @@ public class LoginFragment extends Fragment {
         tvRegisterNow = view.findViewById(R.id.tv_register_now);
         tvForgotPassword = view.findViewById(R.id.tv_forgot_password);
         btnLogin = view.findViewById(R.id.btnLogin);
-
+        
         if (type.equals("Saloon")) {
             if (SharedPrefHelper.getmHelper().getSaloonModel() != null) {
                 Intent intent = new Intent(mActivity, SaloonDashboardActivity.class);
@@ -208,6 +211,17 @@ public class LoginFragment extends Fragment {
     private void navigateToActivity(Class activity) {
         mActivity.startActivity(new Intent(mActivity, activity));
         mActivity.finish();
+
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult ->
+                updateToken(instanceIdResult.getToken()));
+    }
+
+    private void updateToken(String newToken) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token = new Token(newToken);
+        dbRef.child(firebaseUser.getUid()).setValue(token);
     }
 
 }
