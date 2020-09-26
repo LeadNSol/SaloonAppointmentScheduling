@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.leadnsolutions.saloonappointmentscheduling.R;
+import com.leadnsolutions.saloonappointmentscheduling.utils.sharedPref.SharedPrefHelper;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,15 +21,12 @@ import java.util.Objects;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SplashActivity extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
-    private final static int SPLASH_DURATION = 1000;
+public class SplashActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+    private final static int SPLASH_DURATION = 2000;
     private static final int RC_VIDEO_APP_PERM = 124;
     private static final int RC_SETTINGS_SCREEN_PERM = 123;
 
-
     private String TAG = SplashActivity.class.getSimpleName();
-
-    Button btnSaloon, btnCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +66,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        String btnText;
-        if (R.id.btn_Saloon == v.getId())
-            btnText = btnSaloon.getText().toString();
-        else
-            btnText = btnCustomer.getText().toString();
 
-        Intent intent = new Intent(this, CredentialsActivity.class);
-        intent.putExtra("type", btnText);
-        startActivity(intent);
-        finish();
-    }
 
     private void requestPermissions() {
         String[] perms = {
@@ -96,15 +81,45 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         };
         if (EasyPermissions.hasPermissions(this, perms)) {
             //connectMethod();
-            btnSaloon = findViewById(R.id.btn_Saloon);
-            btnCustomer = findViewById(R.id.btn_Customer);
 
-            btnSaloon.setOnClickListener(this);
-            btnCustomer.setOnClickListener(this);
+            if (SharedPrefHelper.getmHelper().getUserLoginType() != null) {
+                String loginType = SharedPrefHelper.getmHelper().getUserLoginType();
+                switch (loginType) {
+                    case "Saloon":
+                        if (SharedPrefHelper.getmHelper().getSaloonModel() != null) {
+                            navigateToMain(loginType);
+                        }
+                        break;
+                    case "Customer":
+                        if (SharedPrefHelper.getmHelper().getCustomerModel() != null) {
+                            navigateToMain(loginType);
+                        }
+                        break;
+                }
+            }else {
+                navigateToCredential();
+            }
 
         } else {
             EasyPermissions.requestPermissions(this, "Permissions are needed", RC_VIDEO_APP_PERM, perms);
         }
+    }
+
+    private void navigateToCredential() {
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(this, CredentialsActivity.class);
+            startActivity(intent);
+        }, SPLASH_DURATION);
+        finish();
+    }
+
+    private void navigateToMain(String loginType) {
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("type", loginType);
+            startActivity(intent);
+        }, SPLASH_DURATION);
+        finish();
     }
 
     @Override

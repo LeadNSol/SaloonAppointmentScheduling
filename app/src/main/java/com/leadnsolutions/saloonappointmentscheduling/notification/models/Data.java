@@ -35,4 +35,24 @@ public class Data {
     public Integer getIcon() {
         return icon;
     }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSent(String sent) {
+        this.sent = sent;
+    }
+
+    public void setIcon(Integer icon) {
+        this.icon = icon;
+    }
 }

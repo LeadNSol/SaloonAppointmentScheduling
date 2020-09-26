@@ -5,7 +5,7 @@
     android:id="@+id/profile_fragment_saloon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".customer.fragments.CustomerProfileFragment">
+    tools:context=".fragments.customer.fragments.CustomerProfileFragment">
 
     <View
         android:id="@+id/view2"

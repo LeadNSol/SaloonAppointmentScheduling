@@ -26,11 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.leadnsolutions.saloonappointmentscheduling.R;
-import com.leadnsolutions.saloonappointmentscheduling.customer.CustomerDashboardActivity;
-import com.leadnsolutions.saloonappointmentscheduling.customer.model.CustomerModel;
+import com.leadnsolutions.saloonappointmentscheduling.activity.MainActivity;
+import com.leadnsolutions.saloonappointmentscheduling.fragments.customer.fragments.CustomerRegistrationFragment;
+import com.leadnsolutions.saloonappointmentscheduling.fragments.customer.model.CustomerModel;
+import com.leadnsolutions.saloonappointmentscheduling.fragments.saloon.SaloonRegistrationFragment;
+import com.leadnsolutions.saloonappointmentscheduling.fragments.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.notification.models.Token;
-import com.leadnsolutions.saloonappointmentscheduling.saloon.SaloonDashboardActivity;
-import com.leadnsolutions.saloonappointmentscheduling.saloon.model.SaloonModel;
 import com.leadnsolutions.saloonappointmentscheduling.utils.AppConstant;
 import com.leadnsolutions.saloonappointmentscheduling.utils.UtilClass;
 import com.leadnsolutions.saloonappointmentscheduling.utils.sharedPref.SharedPrefHelper;
@@ -49,8 +50,12 @@ public class LoginFragment extends Fragment {
     DatabaseReference dbRef;
     private AppCompatActivity mActivity;
 
-    public LoginFragment(String btnText) {
+    public LoginFragment() {
 
+    }
+
+    public LoginFragment(String btnText) {
+        this.type = btnText;
     }
 
     @Override
@@ -65,10 +70,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        type = Objects.requireNonNull(getActivity()).getIntent().getStringExtra("type");
-
         view = inflater.inflate(R.layout.fragment_login, container, false);
-
         initViews();
 
         return view;
@@ -87,30 +89,15 @@ public class LoginFragment extends Fragment {
         tvRegisterNow = view.findViewById(R.id.tv_register_now);
         tvForgotPassword = view.findViewById(R.id.tv_forgot_password);
         btnLogin = view.findViewById(R.id.btnLogin);
-        
-        if (type.equals("Saloon")) {
-            if (SharedPrefHelper.getmHelper().getSaloonModel() != null) {
-                Intent intent = new Intent(mActivity, SaloonDashboardActivity.class);
-                mActivity.startActivity(intent);
-                mActivity.finish();
-            } else {
-                tvRegisterNow.setOnClickListener(v -> {
-                    UtilClass.loadFragment(new SaloonRegistrationFragment(), mActivity, R.id.credentials_frame_layout);
-                    //Toast.makeText(appCompatActivity, "Hello", Toast.LENGTH_SHORT).show();
-                });
-            }
-        } else {
-            if (SharedPrefHelper.getmHelper().getCustomerModel() != null) {
-                Intent intent = new Intent(mActivity, CustomerDashboardActivity.class);
-                mActivity.startActivity(intent);
-                mActivity.finish();
-            } else
-                tvRegisterNow.setOnClickListener(v -> {
-                    UtilClass.loadFragment(new CustomerRegistrationFragment(), mActivity, R.id.credentials_frame_layout);
-                    //Toast.makeText(appCompatActivity, "Hello", Toast.LENGTH_SHORT).show();
-                });
-        }
 
+        tvRegisterNow.setOnClickListener(v -> {
+            if (type.equals("Saloon")) {
+                UtilClass.loadFragment(new SaloonRegistrationFragment(), mActivity, R.id.credentials_frame_layout);
+            } else
+                UtilClass.loadFragment(new CustomerRegistrationFragment(), mActivity, R.id.credentials_frame_layout);
+
+            //Toast.makeText(appCompatActivity, "Hello", Toast.LENGTH_SHORT).show();
+        });
 
         tvForgotPassword.setOnClickListener(v -> {
 
@@ -165,7 +152,7 @@ public class LoginFragment extends Fragment {
 
                         if (customerModel != null) {
                             SharedPrefHelper.getmHelper().setCustomerModel(new Gson().toJson(customerModel));
-                            navigateToActivity(CustomerDashboardActivity.class);
+                            navigateToActivity(MainActivity.class);
                         } else {
                             Toast.makeText(mActivity, "User is a Customer", Toast.LENGTH_SHORT).show();
                         }
@@ -193,7 +180,7 @@ public class LoginFragment extends Fragment {
 
                         if (saloonModel != null) {
                             SharedPrefHelper.getmHelper().setSaloonModel(new Gson().toJson(saloonModel));
-                            navigateToActivity(SaloonDashboardActivity.class);
+                            navigateToActivity(MainActivity.class);
                         } else {
                             Toast.makeText(mActivity, "User is not a Saloon Owner", Toast.LENGTH_SHORT).show();
                         }
@@ -209,7 +196,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void navigateToActivity(Class activity) {
-        mActivity.startActivity(new Intent(mActivity, activity));
+        Intent intent = new Intent(mActivity, activity);
+        intent.putExtra("type", type);
+        mActivity.startActivity(intent);
+
         mActivity.finish();
 
 

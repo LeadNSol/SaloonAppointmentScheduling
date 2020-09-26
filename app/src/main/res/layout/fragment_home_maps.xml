@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    tools:context=".customer.fragments.HomeMapsFragment">
+    tools:context=".fragments.customer.fragments.HomeMapsFragment">
 
 
     <fragment
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".customer.fragments.HomeMapsFragment" />
+        tools:context=".fragments.customer.fragments.HomeMapsFragment" />
 
     <ImageView
         android:id="@+id/img_filter"

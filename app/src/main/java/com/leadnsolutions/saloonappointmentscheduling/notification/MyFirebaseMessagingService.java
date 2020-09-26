@@ -20,10 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.leadnsolutions.saloonappointmentscheduling.appointments.AppointmentsActivity;
+import com.leadnsolutions.saloonappointmentscheduling.activity.MainActivity;
 import com.leadnsolutions.saloonappointmentscheduling.notification.models.OreoAndAboveNotification;
 import com.leadnsolutions.saloonappointmentscheduling.notification.models.Token;
-import com.leadnsolutions.saloonappointmentscheduling.saloon.SaloonDashboardActivity;
 import com.leadnsolutions.saloonappointmentscheduling.utils.AppConstant;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -74,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         assert user != null;
         int i = Integer.parseInt(user.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, AppointmentsActivity.class); // will be set according to
+        Intent intent = new Intent(this, MainActivity.class); // will be set according to
         Bundle bundle = new Bundle();
         bundle.putString("hisUid", user);
         intent.putExtras(bundle);
@@ -100,16 +99,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendOreoAndAboveNotification(RemoteMessage remoteMessage) {
-        String userId = remoteMessage.getData().get("myId");
+        String user = remoteMessage.getData().get("user");
         String body = remoteMessage.getData().get("body");
         String title = remoteMessage.getData().get("title");
         String icon = remoteMessage.getData().get("icon");
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
-        int i = Integer.parseInt(userId.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, SaloonDashboardActivity.class); // will be set according to
+        int i = Integer.parseInt(user.replaceAll("[\\D]", ""));
+        Intent intent = new Intent(this, MainActivity.class); // will be set according to
         Bundle bundle = new Bundle();
-        bundle.putString("myId", userId);
+        bundle.putString("hisUid", user);
         intent.putExtras(bundle);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

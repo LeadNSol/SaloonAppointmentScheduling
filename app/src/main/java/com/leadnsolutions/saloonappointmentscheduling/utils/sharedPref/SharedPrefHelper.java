@@ -10,6 +10,7 @@ public class SharedPrefHelper implements ISharedPrefHelper {
     private static final String PREF_SALOON_MODEL = "PREF_SALOON_MODEL";
     private static final String PREF_Customer_MODEL = "PREF_CUSTOMER_MODEL";
     private static final String PREF_F_USER_UID = "PREF_F_USER_UID";
+    private static final String PREF_USER_TYPE = "PREF_USER_TYPE";
 
 
     public static SharedPrefHelper mHelper;
@@ -60,5 +61,15 @@ public class SharedPrefHelper implements ISharedPrefHelper {
     @Override
     public String getFUserUID() {
         return mPreferences.getString(PREF_F_USER_UID, null);
+    }
+
+    @Override
+    public void setUserLoginType(String userType) {
+        mPreferences.edit().putString(PREF_USER_TYPE, userType).apply();
+    }
+
+    @Override
+    public String getUserLoginType() {
+        return mPreferences.getString(PREF_USER_TYPE, null);
     }
 }

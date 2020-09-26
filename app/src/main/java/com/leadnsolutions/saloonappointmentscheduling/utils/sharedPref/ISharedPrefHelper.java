@@ -14,4 +14,8 @@ public interface ISharedPrefHelper {
 
     void setFUserUID(String UID);
     String getFUserUID();
+
+    void setUserLoginType(String userType);
+
+    String getUserLoginType();
 }

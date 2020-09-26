@@ -4,7 +4,7 @@
     android:id="@+id/notification_fragment_saloon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".saloon.fragments.NotificationFragment">
+    tools:context=".fragments.saloon.fragments.NotificationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

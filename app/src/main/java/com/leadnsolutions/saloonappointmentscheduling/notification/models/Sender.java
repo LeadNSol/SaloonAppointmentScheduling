@@ -21,4 +21,12 @@ public class Sender {
     public String getTo() {
         return to;
     }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
 }

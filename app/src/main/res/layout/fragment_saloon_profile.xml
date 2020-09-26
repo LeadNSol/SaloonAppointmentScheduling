@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".customer.fragments.SaloonProfileFragment">
+    tools:context=".fragments.customer.fragments.SaloonProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -178,7 +178,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/style_book_now_btn"
+            android:background="@drawable/style_green_btn"
             android:text="@string/book_now"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"

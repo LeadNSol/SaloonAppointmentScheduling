@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi;
 
 public class OreoAndAboveNotification extends ContextWrapper {
     private final String CHANNEL_ID = "Saloon_channel";
-    private final String CHANNEL_NAME = "Saloon";
     private NotificationManager mNotificationManager;
 
     public OreoAndAboveNotification(Context base) {
@@ -26,6 +25,7 @@ public class OreoAndAboveNotification extends ContextWrapper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createChannel() {
+        String CHANNEL_NAME = "Saloon";
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);
         channel.enableVibration(true);

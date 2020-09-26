@@ -25,8 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
+        android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        <activity android:name=".appointments.AppointmentsActivity"></activity>
+        <activity android:name=".appointments.AppointmentsActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -39,24 +40,33 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-        <activity android:name=".saloon.SaloonDashboardActivity" />
-        <activity android:name=".customer.CustomerDashboardActivity">
+        <activity android:name=".activity.CredentialsActivity" />
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CredentialsActivity" />
-        <activity android:name=".activity.SplashActivity"></activity>
-        <activity android:name=".customer.fragments.testing" />
-
-        <service
+        <activity android:name=".activity.testing" />
+        <activity android:name=".activity.MainActivity"/>
+        <!--<service
             android:name=".notification.MyFirebaseMessagingService"
-            android:permission="false"> <!-- android:permission="com.google.android.c2dm.permission.SEND" -->
+            android:enabled="true"
+            android:exported="true"
+            android:permission="false"> &lt;!&ndash; android:permission="com.google.android.c2dm.permission.SEND" &ndash;&gt;
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>-->
+
+        <service
+            android:permission="false"
+            android:name=".notification.MyFirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
     </application>
